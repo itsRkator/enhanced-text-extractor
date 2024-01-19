@@ -11,8 +11,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { langchainProcess } from "../utils/langchain";
-import { openaiProcess } from "../utils/openai";
+import axios from "axios";
 
 interface ExtractedDataRow {
   header: string;
@@ -39,10 +38,19 @@ const FileUpload: React.FC = () => {
       if (!file) {
         throw Error("An PDF file is required.");
       }
-      const extractedText = await langchainProcess(file);
-      const openaiResult = await openaiProcess(extractedText);
 
-      const structuredData: ExtractedDataRow[] = [...openaiResult];
+      const formData = new FormData();
+      formData.append("pdfFile", file);
+      
+      const response = await axios.post('http://localhost:4300/api/analyze-pdf', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      setExtractedData(response.data.AnalyzedData);
+
+      const structuredData = extractedData;
       setExtractedData(structuredData);
     } catch (error) {
       console.error(error);
