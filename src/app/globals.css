@@ -1,0 +1,17 @@
+/* styles/globals.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html,
+body {
+  @apply p-0 m-0 font-sans h-full;
+}
+
+body {
+  @apply bg-gradient-to-b from-purple-400 to-blue-500;
+}
+
+.container {
+  @apply mx-auto max-w-md p-8 bg-white rounded-lg shadow-lg mt-8;
+}
